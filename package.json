@@ -1,0 +1,89 @@
+{
+  "name": "tzuchi-hdsp-gateway",
+  "version": "0.1.0-bootstrap",
+  "description": "Tzu-Chi Hemodialysis Service Platform Gateway",
+  "private": true,
+  "main": "dist/server.js",
+  "bin": {
+    "server": "dist/server.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "tsdoc": "typedoc && start tsdoc/index.html",
+    "cspell": "cspell **/*",
+    "lint": "eslint src test ./*.js --ext js,ts",
+    "build": "tsc",
+    "build-clean": "rimraf dist && tsc --incremental false",
+    "test": "concurrently \"npm:lint\" \"npm:build\" && echo SKIP TEST nyc mocha -r source-map-support/register",
+    "coverage": "nyc report -r=html && start coverage/index.html",
+    "start": "cross-env-shell \"node $npm_package_bin_server\" || node $npm_package_bin_server",
+    "start-local": "env-cmd -f secret/.env npm start",
+    "start-inspect": "env-cmd -f secret/.env cross-env-shell \"node --inspect $npm_package_bin_server\"",
+    "watch": "nodemon -e ts,js -w src -w test -x npx concurrently -r --kill-others-on-fail \"npm:lint\" \"npm run build && npm run start-local\"",
+    "watch-inspect": "nodemon -e ts,js -w src -w test -x npx concurrently -r --kill-others-on-fail \"npm:lint\" \"npm run build && npm run start-inspect\"",
+    "pkg": "npm test && npm run build-clean && pkg . --targets linux --output server"
+  },
+  "pkg": {
+    "assets": []
+  },
+  "author": {
+    "name": "CY Wang",
+    "email": "smugen.mugen@outlook.com",
+    "url": "https://apulse.ai"
+  },
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "16.14.x"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "concurrently": "^7.1.0",
+    "cross-env": "^7.0.3",
+    "cspell": "^5.19.5",
+    "env-cmd": "^10.1.0",
+    "eslint": "^8.12.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^7.0.4",
+    "import-sort-style-module": "^6.0.0",
+    "lint-staged": "^12.3.7",
+    "nodemon": "^2.0.15",
+    "nyc": "^15.1.0",
+    "prettier": "^2.6.2",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "rimraf": "^3.0.2",
+    "typedoc": "^0.22.13",
+    "typescript": "^4.6.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": "cspell lint --no-must-find-files",
+    "*.{html,css,scss,json}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint",
+      "prettier --check"
+    ]
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "utf-8-validate": "^5.0.9"
+  }
+}

@@ -1,0 +1,8 @@
+schema: ./dist/gateway.graphql
+documents:
+  - ./src/**/*.graphql
+  - ./dist/*.graphql
+extensions:
+  endpoints:
+    default:
+      url: http://127.0.0.1:8010/graphql
