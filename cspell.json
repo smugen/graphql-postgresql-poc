@@ -22,9 +22,11 @@
     "bufferutil",
     "dockerignore",
     "gitmodules",
+    "typedi",
     "typedoc",
     "tsdoc",
-    "mkdir"
+    "mkdir",
+    "hstore"
   ],
   "words": ["hdsp", "tzuchi"]
 }
