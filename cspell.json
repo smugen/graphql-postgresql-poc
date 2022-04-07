@@ -26,7 +26,8 @@
     "typedoc",
     "tsdoc",
     "mkdir",
-    "hstore"
+    "hstore",
+    "UUIDV4"
   ],
   "words": ["hdsp", "tzuchi"]
 }

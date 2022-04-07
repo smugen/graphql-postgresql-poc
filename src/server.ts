@@ -3,6 +3,7 @@ import 'reflect-metadata';
 
 import Container from 'typedi';
 
+import logger from './logger';
 import SequelizeDatabase from './services/SequelizeDatabase';
 
 /** this module (.js) run as entry point `process.argv[1]` */
@@ -32,5 +33,14 @@ async function main() {
   }
 
   const db = Container.get(SequelizeDatabase);
-  await db.sequelize.authenticate();
+
+  const {
+    models: { User },
+  } = db;
+
+  const { rows: users, count } = await User.findAndCountAll();
+  logger.info('User.findAndCountAll', { users, count });
+
+  const user = User.build();
+  logger.info('User.build', { user });
 }
