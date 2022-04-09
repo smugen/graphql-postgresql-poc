@@ -1,10 +1,12 @@
 import base64url from 'base64url';
 import { parse, stringify, validate, version } from 'uuid';
 
+import { ModelName } from '../schema/entities/DaoIdentity';
+
 const DELIMITER = '.';
 
 interface DaoIdentity {
-  modelName: string;
+  modelName: string | ModelName;
   _id: string;
 }
 
@@ -15,7 +17,7 @@ export function daoIdToNodeId({ modelName, _id }: DaoIdentity) {
     throw new TypeError(`_id is not a valid DAO id: ${_id}`);
   }
 
-  const modelNamePart = base64url(modelName);
+  const modelNamePart = base64url(modelName as string);
   const _idPart = base64url(Buffer.from(parse(_id) as readonly number[]));
 
   return {

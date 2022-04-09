@@ -23,7 +23,8 @@
     "start-inspect": "env-cmd -f secret/.env cross-env-shell \"node --inspect $npm_package_bin_server\"",
     "watch": "nodemon -e ts,js -w src -w test -x npx concurrently -r --kill-others-on-fail \"npm:lint\" \"npm run build && npm run start-local\"",
     "watch-inspect": "nodemon -e ts,js -w src -w test -x npx concurrently -r --kill-others-on-fail \"npm:lint\" \"npm run build && npm run start-inspect\"",
-    "pkg": "npm test && npm run build-clean && pkg . --targets linux --output server"
+    "pkg": "npm test && npm run build-clean && pkg . --targets linux --output server",
+    "prepare": "husky install"
   },
   "pkg": {
     "assets": []

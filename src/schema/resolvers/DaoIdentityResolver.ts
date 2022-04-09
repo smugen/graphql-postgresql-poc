@@ -1,8 +1,10 @@
-import { Args, Query, Resolver } from 'type-graphql';
+import { Arg, Args, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 
+import { daoIdToNodeId } from '../../helpers/nodeId';
 import DaoIdentity from '../entities/DaoIdentity';
 import NodeArgs from './args/NodeArgs';
+import FromDaoIdentityInput from './input/FromDaoIdentityInput';
 
 @Resolver(() => DaoIdentity)
 @Service()
@@ -21,5 +23,13 @@ export default class DaoIdentityResolver {
   })
   daoIdentity(@Args() { id }: NodeArgs) {
     return DaoIdentity.from(id);
+  }
+
+  @Query({
+    description: 'Get a Node ID by its DAO identity',
+    nullable: true,
+  })
+  fromDaoIdentity(@Arg('input') input: FromDaoIdentityInput): string {
+    return daoIdToNodeId(input).nodeId;
   }
 }
