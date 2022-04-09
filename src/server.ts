@@ -4,7 +4,8 @@ import 'reflect-metadata';
 import Container from 'typedi';
 
 import logger from './logger';
-import SequelizeDatabase from './services/SequelizeDatabase';
+import AppEnv from './services/AppEnv';
+import SubgraphApp from './services/SubgraphApp';
 
 /** this module (.js) run as entry point `process.argv[1]` */
 if (require.main === module) {
@@ -32,15 +33,10 @@ async function main() {
     });
   }
 
-  const db = Container.get(SequelizeDatabase);
-
-  const {
-    models: { User },
-  } = db;
-
-  const { rows: users, count } = await User.findAndCountAll();
-  logger.info('User.findAndCountAll', { users, count });
-
-  const user = User.build();
-  logger.info('User.build', { user });
+  const env = Container.get(AppEnv);
+  const subgraph = await Container.get(SubgraphApp).getKoa();
+  const server = subgraph.listen(env.subgraphPort).on('listening', () => {
+    const address = server.address();
+    logger.info('HTTP Server listening on', { address });
+  });
 }

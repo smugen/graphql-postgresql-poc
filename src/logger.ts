@@ -1,5 +1,7 @@
 import { inspect } from 'util';
 
+import chalk from 'chalk';
+import stc from 'string-to-color';
 import Container from 'typedi';
 import winston from 'winston';
 
@@ -26,6 +28,12 @@ const logger = winston.createLogger({
               colors: true,
               compact: 3,
             })}`;
+          }
+
+          if (info.module) {
+            message = `${message} ${chalk.hex(stc(info.module))(
+              `[${info.module}]`,
+            )}`;
           }
 
           return message;
