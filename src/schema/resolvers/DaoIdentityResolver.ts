@@ -4,7 +4,7 @@ import { Service } from 'typedi';
 import { daoIdToNodeId } from '../../helpers/nodeId';
 import DaoIdentity from '../entities/DaoIdentity';
 import NodeArgs from './args/NodeArgs';
-import FromDaoIdentityInput from './input/FromDaoIdentityInput';
+import FromDaoIdentityInput from './inputs/FromDaoIdentityInput';
 
 @Resolver(() => DaoIdentity)
 @Service()
