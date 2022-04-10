@@ -39,6 +39,7 @@
     "node": "16.14.x"
   },
   "dependencies": {
+    "@graphql-tools/utils": "^8.6.6",
     "apollo-server-core": "^3.6.7",
     "apollo-server-koa": "^3.6.7",
     "base64url": "^3.0.1",

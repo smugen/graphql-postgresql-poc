@@ -1,11 +1,14 @@
 import assert from 'assert';
+import { writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
+import { printSchemaWithDirectives } from '@graphql-tools/utils';
 import {
   ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground,
 } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-koa';
+import { GraphQLSchema, lexicographicSortSchema } from 'graphql';
 import Koa from 'koa';
 import koaFavicon from 'koa-favicon';
 import koaLogger from 'koa-logger';
@@ -28,6 +31,11 @@ export default class SubgraphApp {
 
   private async graphql() {
     const schema = await schemaFactory();
+    NodeEnv.Development === this.initApp.env &&
+      (await emitSchemaDefinitionWithDirectivesFile(
+        resolve(process.cwd(), './generated/subgraph.schema.gql'),
+        schema,
+      ));
 
     const server = new ApolloServer({
       schema,
@@ -73,4 +81,14 @@ export default class SubgraphApp {
 
     return (this.app = app);
   }
+}
+
+export async function emitSchemaDefinitionWithDirectivesFile(
+  schemaFilePath: string,
+  schema: GraphQLSchema,
+): Promise<void> {
+  const schemaFileContent = printSchemaWithDirectives(
+    lexicographicSortSchema(schema),
+  );
+  await writeFile(schemaFilePath, schemaFileContent);
 }

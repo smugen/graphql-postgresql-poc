@@ -1,0 +1,91 @@
+schema {
+  query: Query
+}
+
+type DaoIdentity implements Node @key(fields: "id") {
+  """The DAO ID"""
+  _id: UUID!
+  """The Node ID"""
+  id: ID!
+  """The DAO model name"""
+  modelName: ModelName!
+}
+
+interface DaoNode implements Node {
+  """The DAO ID"""
+  _id: UUID!
+  """The DAO created at."""
+  createdAt: DateTime
+  """The DAO deleted at."""
+  deletedAt: DateTime
+  """The Node ID"""
+  id: ID!
+  """The DAO model name"""
+  modelName: String!
+  """The DAO updated at."""
+  updatedAt: DateTime
+}
+
+"""The javascript `Date` as string. Type represents date and time as the ISO Date string."""
+scalar DateTime
+
+input FromDaoIdentityInput {
+  """The DAO ID"""
+  _id: UUID!
+  """The DAO model name"""
+  modelName: ModelName!
+}
+
+"""The DAO model name"""
+enum ModelName {
+  User
+}
+
+interface Node {
+  id: ID!
+}
+
+type Query {
+  """Get a DAO identity by its Node ID"""
+  daoIdentity(
+    """ID of the object."""
+    id: ID!
+  ): DaoIdentity
+  """Get a Node ID by its DAO identity"""
+  fromDaoIdentity(input: FromDaoIdentityInput!): String
+  """Get a user by nodeId"""
+  user(
+    """ID of the object."""
+    id: ID!
+  ): User
+  """Get all users"""
+  users: [User!]!
+}
+
+"""A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier."""
+scalar UUID
+
+type User implements DaoNode & Node @key(fields: "id") {
+  """The DAO ID"""
+  _id: UUID!
+  """The DAO created at."""
+  createdAt: DateTime
+  """The DAO deleted at."""
+  deletedAt: DateTime
+  """The User email"""
+  email: String!
+  """The Citizen full name"""
+  fullName: String!
+  """The Node ID"""
+  id: ID!
+  """The Citizen id number"""
+  idNumber: String!
+  """The DAO model name"""
+  modelName: String!
+  """The User role"""
+  role: String!
+  """The DAO updated at."""
+  updatedAt: DateTime
+  """The User username"""
+  username: String!
+}
