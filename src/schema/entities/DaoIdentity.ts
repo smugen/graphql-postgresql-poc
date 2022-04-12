@@ -14,6 +14,7 @@ import GraphNode from './GraphNode';
 
 export enum ModelName {
   User = 'User',
+  Patient = 'Patient',
 }
 
 registerEnumType(ModelName, {

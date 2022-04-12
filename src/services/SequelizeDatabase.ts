@@ -11,6 +11,7 @@ export default class SequelizeDatabase {
   readonly models: Models;
 
   readonly UserModel: Models['User'];
+  readonly PatientModel: Models['Patient'];
 
   constructor(@Inject(() => AppEnv) env: AppEnv) {
     this.sequelize = new Sequelize(env.postgresUrl, {
@@ -34,5 +35,6 @@ export default class SequelizeDatabase {
     this.models = this.sequelize.models as unknown as Models;
 
     this.UserModel = this.models.User;
+    this.PatientModel = this.models.Patient;
   }
 }

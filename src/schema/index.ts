@@ -3,6 +3,7 @@ import { buildSchema } from 'type-graphql';
 import Container from 'typedi';
 
 import DaoIdentityResolver from './resolvers/DaoIdentityResolver';
+import PatientResolver from './resolvers/PatientResolver';
 import UserResolver from './resolvers/UserResolver';
 
 // https://github.com/typestack/class-validator#using-service-container
@@ -12,7 +13,7 @@ Container.set(Validator, new Validator());
 export default function schemaFactory() {
   // return buildFederatedSchema({
   return buildSchema({
-    resolvers: [DaoIdentityResolver, UserResolver],
+    resolvers: [DaoIdentityResolver, UserResolver, PatientResolver],
     orphanedTypes: [],
     dateScalarMode: 'isoDate',
     container: Container,

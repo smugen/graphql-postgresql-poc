@@ -38,11 +38,43 @@ input FromDaoIdentityInput {
 
 """The DAO model name"""
 enum ModelName {
+  Patient
   User
 }
 
 interface Node {
   id: ID!
+}
+
+type Patient implements DaoNode & Node @key(fields: "id") {
+  """The DAO ID"""
+  _id: UUID!
+  """The Patient visiting doctor DAO ID"""
+  _visitingDoctorId: UUID
+  """The Patient birth date"""
+  birthDate: DateTime
+  """The Patient case number"""
+  caseNumber: String!
+  """The DAO created at."""
+  createdAt: DateTime
+  """The DAO deleted at."""
+  deletedAt: DateTime
+  """The Citizen full name"""
+  fullName: String!
+  """The Node ID"""
+  id: ID!
+  """The Citizen id number"""
+  idNumber: String!
+  """The DAO model name"""
+  modelName: String!
+  """The Patient sex"""
+  sex: Sex
+  """The DAO updated at."""
+  updatedAt: DateTime
+  """The Patient visiting doctor"""
+  visitingDoctor: User
+  """The Patient visiting doctor Node ID"""
+  visitingDoctorId: ID
 }
 
 type Query {
@@ -53,6 +85,13 @@ type Query {
   ): DaoIdentity
   """Get a Node ID by its DAO identity"""
   fromDaoIdentity(input: FromDaoIdentityInput!): String
+  """Get a patient by nodeId"""
+  patient(
+    """ID of the object."""
+    id: ID!
+  ): Patient
+  """Get all patients"""
+  patients: [Patient!]!
   """Get a user by nodeId"""
   user(
     """ID of the object."""
@@ -60,6 +99,12 @@ type Query {
   ): User
   """Get all users"""
   users: [User!]!
+}
+
+"""The Patient sex"""
+enum Sex {
+  Female
+  Male
 }
 
 """A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier."""

@@ -16,7 +16,7 @@ export default class UserService {
     return this.db.UserModel.findAll();
   }
 
-  async loadByNodeId(nodeId: string): Promise<User | undefined> {
+  async loadByNodeId(nodeId: string): Promise<User> {
     const user = await this.userLoader.load(nodeId);
     if (!user) {
       throw new UserNotFoundError(nodeId);
